@@ -1,0 +1,40 @@
+<dom-module id="shared-styles">
+  <template>
+    <style>
+      paper-toolbar.lightblue {
+        --paper-toolbar-background: #03A9F4;
+        --paper-toolbar-color: white;
+      }
+
+      paper-card {
+        padding: 0px;
+        margin: 17px;
+        --paper-card-header-color: #0f0f0f;
+      }
+
+      paper-card .card-actions {
+        padding: 0px;
+      }
+
+      paper-card .card-content {
+        padding-bottom: 0px;
+      }
+
+      :host {
+        display: block;
+      }
+
+      #cards {
+        @apply(--layout-vertical);
+        @apply(--center-justified);
+        max-width: 80%;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      paper-card h2 {
+        margin-bottom: 0px;
+      }
+    </style>
+  </template>
+</dom-module>
