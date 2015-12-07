@@ -3,19 +3,41 @@ package checkin
 import (
 	"html/template"
 	"net/http"
+	"encoding/json"
+	"os"
+	"log"
 )
 
 type IndexInfo struct {
-	Key string
+	Meetup string
+	UserId string
+	Location string
 }
 
-func AppEntry(w http.ResponseWriter, r *http.Request) {
-	info := IndexInfo{"testkey"}
-	t, _ := template.ParseFiles("checkin/index.html")
-	t.Execute(w, info)
+type Config struct {
+	FBAppName string
+}
+
+var config Config
+
+func loadConfiguration() {
+	file, _ := os.Open("env.json")
+	err := json.NewDecoder(file).Decode(&config)
+
+	if err != nil {
+		log.Println("error:", err)
+	}
+}
+
+func appEntry(w http.ResponseWriter, r *http.Request) {
+	r.ParseForm()
+
+	t := template.Must(template.New("index.html").Delims("[[", "]]").ParseFiles("checkin/index.html"))
+	t.Execute(w, IndexInfo{r.Form.Get("meetup"), r.Form.Get("user-id"), config.FBAppName})
 }
 
 func init() {
-	http.HandleFunc("/", AppEntry)
-	http.Handle("/static/", http.FileServer(http.Dir("./checkin")))
+	loadConfiguration()
+
+	http.HandleFunc("/", appEntry)
 }
