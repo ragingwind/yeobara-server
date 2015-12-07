@@ -17,7 +17,7 @@ You should set up configuration data to `env.json` file before run. Firstly, cre
 ### Install bower components
 
 ```sh
-cd checkin && bower install
+bower install
 ```
 
 ### Run
